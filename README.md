@@ -3,7 +3,7 @@ Manage the user association with the AMP reader ids
 
 # Sorry, this app is not implemented yet. It will be implemented soon (estimated for this month, May 2023), the idea is:
 
-Associate AMP readers ids with timestamp of "last used" when there is a successful login from amp, for that we can use the user_logged_in signal: https://stackoverflow.com/a/6109366/2292933
+Associate AMP readers ids with timestamp of "last used" when there is a successful login from amp, for that we can use the user_logged_in signal: https://stackoverflow.com/a/6109366/2292933 (but how we can operate if the user is alreade logged in? a middleware instead of a signal can be another solution)
 
 That app will also have a management command that can be used via cron to remove old reader ids that haven't been used for X amount of time.
 
