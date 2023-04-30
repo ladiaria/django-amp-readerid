@@ -3,7 +3,9 @@ Manage the user association with the AMP reader ids
 
 # Sorry, this app is not implemented yet. It will be implemented soon (estimated for this month, May 2023), the idea is:
 
-Associate AMP readers ids with timestamp of "last used" when there is a successful login from amp, for that we can use the user_logged_in signal: https://stackoverflow.com/a/6109366/2292933 (but how we can operate if the user is alreade logged in? a middleware instead of a signal can be another solution, also check the AMP docs for the login and logout endpoints, may help to solve this point)
+Associate AMP readers ids (upto some limit, for ex 10, round-robin oldest) with timestamp of "last used" when there is a successful login from amp, for that we can use the user_logged_in signal: https://stackoverflow.com/a/6109366/2292933 (but how we can operate if the user is alreade logged in? a middleware instead of a signal can be another solution, also check the AMP docs for the login and logout endpoints, may help to solve this point)
+
+1st approach: offer a decorator to be used in the amp-login view (no middleware or signal), see decorators.py. The implementation of the amp-login view is site dev's responsibility.
 
 That app will also have a management command that can be used via cron to remove old reader ids that haven't been used for X amount of time.
 
