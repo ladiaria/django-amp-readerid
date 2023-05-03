@@ -19,18 +19,43 @@ def amp_login_readerid(request):
 
 def relate(reader_id, user):
     """
-    relates a reader_id with a user
-    if already related, save object to update the last_used timestamp
-    if max relations reached, replaces the oldest one
+    Relates a reader_id with a user:
+    - if already related with trhe same user: only save object to update the last_used timestamp.
+    - if already related with another user, because more than one user have used the device loggede-in (common in dev):
+        change the user and save.
+    - On any case, check for the max relation limit, and replace/remove the oldest one to keep limits consistently.
     """
-    if user.userreaderid_set.count() < app_settings.MAX_READER_IDS_PER_USER:
-        r, created = UserReaderId.objects.get_or_create(reader_id=reader_id, user=user)
-        if not created:
-            r.save()
+
+    try:
+
+        related_obj = UserReaderId.objects.get(reader_id=reader_id)
+
+    except UserReaderId.DoesNotExist:
+
+        related_set = user.userreaderid_set
+        if related_set.count() < app_settings.MAX_READER_IDS_PER_USER:
+            # safe to create
+            UserReaderId.objects.create(reader_id=reader_id, user=user)
+        else:
+            # update earliest user's relation
+            related_obj = related_set.earliest()
+            related_obj.reader_id = reader_id
+            related_obj.save()
+
     else:
-        r = user.userreaderid_set.earliest()
-        r.reader_id = reader_id
-        r.save()
+
+        if related_obj.user == user:
+            related_obj.save()
+        else:
+
+            related_set = user.userreaderid_set
+            if related_set.count() >= app_settings.MAX_READER_IDS_PER_USER:
+                # remove user earlies't one
+                related_set.earliest().delete()
+
+            # now is safe to update the user
+            related_obj.user = user
+            related_obj.save()
 
 
 def amp_readerid(request):
@@ -48,8 +73,7 @@ def get_related_user(request):
         try:
             r = UserReaderId.objects.get(reader_id=reader_id)
         except UserReaderId.DoesNotExist:
-            if request.user.is_authenticated:
-                relate(reader_id, request.user)
+            pass
         else:
             r.save()
             return r.user

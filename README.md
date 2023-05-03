@@ -5,14 +5,14 @@ Associates AMP readers ids with timestamp of "last used" when there is a success
 
 **IMPORTANT:** The implementation of the amp-login view and how it redirects after a successfull login is site dev's responsibility. TODO: provide a minimal example and also warn when using google-social-auth.
 
-TODO: a management command that can be used via cron to remove old reader ids that haven't been used for X amount of time.
+TODO: a management command that can be used via cron to remove old reader ids that haven't been used for X amount of time. Or as many older entries to keep limits per user consistenlty with the configuration.
 
 In the amp_user_auth view of your site, you could also update the timestamp, TODO: write here that this is responsibility of the developer too showing an usage example.
 
 ## Utilities:
 
  - get the user associated with an amp request, for example for the amp_user_auth view or the pingback view.
- - A function that returns True when the request has all the get params used for the login requests originated from an AMP page.
+ - A function that returns a param value given by name when the request has all the get params used for the login requests originated from an AMP page.
  - A view to redirect to an url given by param (useful when using google-social-auth).
 
 ## Django and Python versions:
