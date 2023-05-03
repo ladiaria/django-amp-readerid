@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Manage the user association with the AMP reader ids
-2023, la diaria.
+Utilities to manage the user association with the AMP reader ids.
+2023, Aníbal Pacheco, la diaria.
 """
 from __future__ import unicode_literals
 
@@ -19,7 +19,7 @@ setup(
     version="0.1",
     packages=find_packages(),
     include_package_data=True,
-    description="Manage the user association with the AMP reader ids",
+    description="Utilities to manage the user association with the AMP reader ids",
     long_description=README,
     author='la diaria',
     author_email='it@ladiaria.com.uy',
