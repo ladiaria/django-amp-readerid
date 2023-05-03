@@ -1,4 +1,4 @@
-from django.conf import settings
+from .utils import amp_login_readerid, relate
 
 
 def readerid_assoc(login_view):
@@ -8,12 +8,10 @@ def readerid_assoc(login_view):
 
     def assoc(request, *args, **kwargs):
         if request.method == 'GET':
-            return_url = request.GET.get("return")
-            reader_id = request.GET.get("rid")  # TODO: use setting
-            if return_url and reader_id:  # TODO: other custom params (by settings) should be present
+            reader_id = amp_login_readerid(request)
+            if reader_id:
                 if request.user.is_authenticated:
-                    # TODO: set/refresh assoc only
-                    pass
+                    relate(reader_id, request.user)
                 else:
                     request.session["amp_reader_id"] = reader_id
         return login_view(request, *args, **kwargs)

@@ -11,8 +11,8 @@ TODO: a management command that can be used via cron to remove old reader ids th
 
 In the amp_user_auth view of your site, you could also update the timestamp, TODO: write here that this is responsibility of the developer too.
 
-TODO: Also implement "utils" to quickly get the user associated with an amp request, for example for the amp_user_auth view or the pingback view:
+## Utilities:
 
-TODO: A function that returns True when the request has all the get params used for the login requests originated from an AMP page.
-
-TODO: A view to redirect to an url given by param (useful when using google-social-auth)
+ - get the user associated with an amp request, for example for the amp_user_auth view or the pingback view.
+ - A function that returns True when the request has all the get params used for the login requests originated from an AMP page.
+ - A view to redirect to an url given by param (useful when using google-social-auth).
