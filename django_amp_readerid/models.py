@@ -5,7 +5,7 @@ from .apps import DjangoAmpReaderidConfig as app_settings
 
 
 class UserReaderId(models.Model):
-    reader_id = models.CharField(max_length=32, unique=True)
+    reader_id = models.CharField(max_length=64, unique=True)
     last_used = models.DateTimeField(auto_now=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
