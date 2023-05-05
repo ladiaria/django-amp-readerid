@@ -60,15 +60,16 @@ def relate(reader_id, user):
 
 def amp_readerid(request):
     """ returns the reader id param value of the request """
-    return request.GET.get(app_settings.READER_ID_PARAM_NAME)
+    return getattr(request, request.method).get(app_settings.READER_ID_PARAM_NAME)
 
 
-def get_related_user(request):
+def get_related_user(request, return_readerid=False):
     """
     Returns the related user with the request's reader_id (if any), and updates the "last_used" timestamp.
     If no user related, returns the request.user attribute.
+    If return_readerid is True, returns a tuple containing also the readerid obtained from the request.
     """
-    reader_id = amp_readerid(request)
+    reader_id, related_user = amp_readerid(request), None
     if reader_id:
         try:
             r = UserReaderId.objects.get(reader_id=reader_id)
@@ -76,5 +77,6 @@ def get_related_user(request):
             pass
         else:
             r.save()
-            return r.user
-    return request.user
+            related_user = r.user
+    related_user = related_user or request.user
+    return (related_user, reader_id) if return_readerid else related_user

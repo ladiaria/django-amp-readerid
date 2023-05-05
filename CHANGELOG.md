@@ -1,3 +1,7 @@
+# Version 0.4 (2023-05-05)
+
+A few more features in utils functions.
+
 # Version 0.3 (2023-05-04)
 
 Fix length for the reader id field to 64 chars.
