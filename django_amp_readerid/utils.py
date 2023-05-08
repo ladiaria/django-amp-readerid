@@ -1,3 +1,5 @@
+import json
+
 from .apps import DjangoAmpReaderidConfig as app_settings
 from .models import UserReaderId
 
@@ -58,18 +60,19 @@ def relate(reader_id, user):
             related_obj.save()
 
 
-def amp_readerid(request):
+def amp_readerid(request, use_body):
     """ returns the reader id param value of the request """
-    return getattr(request, request.method).get(app_settings.READER_ID_PARAM_NAME)
+    data_dict = json.loads(request.body) if use_body and request.body else getattr(request, request.method)
+    return data_dict.get(app_settings.READER_ID_PARAM_NAME)
 
 
-def get_related_user(request, return_readerid=False):
+def get_related_user(request, return_readerid=False, use_body=False):
     """
     Returns the related user with the request's reader_id (if any), and updates the "last_used" timestamp.
     If no user related, returns the request.user attribute.
     If return_readerid is True, returns a tuple containing also the readerid obtained from the request.
     """
-    reader_id, related_user = amp_readerid(request), None
+    reader_id, related_user = amp_readerid(request, use_body), None
     if reader_id:
         try:
             r = UserReaderId.objects.get(reader_id=reader_id)

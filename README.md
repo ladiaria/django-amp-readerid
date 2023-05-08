@@ -32,3 +32,7 @@ TODO: write this topic
 ## Usage examples:
 
 TODO: Link to utopia-cms files with explanation
+
+## Wishes
+
+- A decorator to be used in the auth view to return "custom" JSON if the reader_id matches a user marked to be a "debug" or "test" user (new model to relate "test user" with "custom json")
