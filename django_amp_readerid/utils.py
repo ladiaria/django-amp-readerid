@@ -1,7 +1,5 @@
 import json
 
-from django.conf import settings
-
 from .apps import DjangoAmpReaderidConfig as app_settings
 from .models import UserReaderId
 
