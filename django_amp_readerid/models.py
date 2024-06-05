@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-from .apps import DjangoAmpReaderidConfig as app_settings
-
 
 class UserReaderId(models.Model):
     reader_id = models.CharField(max_length=64, unique=True)

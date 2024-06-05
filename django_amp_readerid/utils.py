@@ -1,5 +1,7 @@
 import json
 
+from django.conf import settings
+
 from .apps import DjangoAmpReaderidConfig as app_settings
 from .models import UserReaderId
 
@@ -22,8 +24,8 @@ def amp_login_readerid(request):
 def relate(reader_id, user):
     """
     Relates a reader_id with a user:
-    - if already related with trhe same user: only save object to update the last_used timestamp.
-    - if already related with another user, because more than one user have used the device loggede-in (common in dev):
+    - if already related with the same user: only save object to update the last_used timestamp.
+    - if already related with another user, because more than one user have used the device logged-in (common in dev):
         change the user and save.
     - On any case, check for the max relation limit, and replace/remove the oldest one to keep limits consistently.
     """
@@ -61,9 +63,11 @@ def relate(reader_id, user):
 
 
 def amp_readerid(request, use_body):
-    """ returns the reader id param value of the request """
+    """
+    returns the reader id param value of the request (preferred by its method otherwise defaults to GET)
+    """
     data_dict = json.loads(request.body) if use_body and request.body else getattr(request, request.method)
-    return data_dict.get(app_settings.READER_ID_PARAM_NAME)
+    return data_dict.get(app_settings.READER_ID_PARAM_NAME, request.GET.get(app_settings.READER_ID_PARAM_NAME))
 
 
 def get_related_user(request, return_readerid=False, use_body=False):

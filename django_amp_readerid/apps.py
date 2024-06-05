@@ -11,4 +11,4 @@ class DjangoAmpReaderidConfig(AppConfig):
     MAX_READER_IDS_PER_USER = 10
 
     def ready(self):
-        import django_amp_readerid.signals
+        import django_amp_readerid.signals  # noqa
